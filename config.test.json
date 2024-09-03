@@ -1,0 +1,26 @@
+{
+  "basic": {
+    "env": "test",
+    "port": 8080,
+    "version": 1,
+    "sessionExpiresSec": 86400,
+    "sessionEncryptKey": "Xk3$mIV0OvZl1#hR.oPe!s/T",
+    "checkinBrokenSec": 600
+  },
+  "bot": {
+    "webUrl": "https://d3n3o4ngxcrrhw.cloudfront.net"
+  },
+  "database": {
+    "host": "mysql",
+    "port": "3306",
+    "user": "root",
+    "pass": "Gx143DlzIImZmmKl",
+    "dbname": "tmw",
+    "initPath": "./init.sql"
+  },
+  "cache": {
+    "host": "redis",
+    "port": "6379",
+    "pass": "Xx@v4BO3_fTl0AoM2"
+  }
+}

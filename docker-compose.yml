@@ -1,0 +1,50 @@
+services:
+  mysql:
+    restart: always
+    image: mysql:8.0.34
+    container_name: mysql
+    volumes:
+      - /var/mysql/mydir:/mydir
+      - /var/mysql/datadir:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - "MYSQL_ROOT_PASSWORD=Gx143DlzIImZmmKl"
+    ports:
+      - "3306:3306"
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - /root/docker/compose/redis/redis.conf:/etc/redis/redis.conf
+      - /root/docker/compose/redis/data:/data
+    command: redis-server /etc/redis/redis.conf --requirepass "Xx@v4BO3_fTl0AoM2"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200m"
+        max-file: "7"
+    restart: on-failure
+  server:
+    image: "ghcr.io/tg-mini-wallet/game-mining-server:${RUN_ENV}"
+    command: sh -c "./entry ${RUN_ENV} 7256335861:AAF7MHK2Z1QK5ib0u9IIZWziQzaE4umTE2o"
+    container_name: tmw-server
+    ports:
+      - "8088:8080"
+    depends_on:
+      - redis
+      - mysql
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200m"
+        max-file: "7"
+    restart: on-failure
+  web:
+    image: "ghcr.io/tg-mini-wallet/tg-mini-wallet:${RUN_ENV}"
+    container_name: tmw
+    ports:
+      - "8008:80"
+    depends_on:
+      - server

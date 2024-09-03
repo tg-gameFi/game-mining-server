@@ -1,0 +1,26 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: "tmw-mysql"
+    cap_add:
+      - SYS_NICE
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: wallet@db
+      MYSQL_DATABASE: tmw_db_local
+      MYSQL_USER: user
+      MYSQL_PASSWORD: wallet@db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  redis:
+    image: 'bitnami/redis:7.0'
+    container_name: "tmw-redis"
+    environment:
+      - REDIS_PASSWORD=wallet@redis
+      - REDIS_AOF_ENABLED=no
+    command: /opt/bitnami/scripts/redis/run.sh --maxmemory 100mb
+    ports:
+      - "6379:6379"
